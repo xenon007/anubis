@@ -31,7 +31,7 @@ func base(title string, body templ.Component) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html><head><style>\n        html {\n          max-width: 70ch;\n          padding: 3em 1em;\n          margin: auto;\n          line-height: 1.75;\n          font-size: 1.25em;\n        }\n      </style><title>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html><head><style>\r\n        html {\r\n          max-width: 70ch;\r\n          padding: 3em 1em;\r\n          margin: auto;\r\n          line-height: 1.75;\r\n          font-size: 1.25em;\r\n        }\r\n      </style><title>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -74,12 +74,9 @@ const loadTranslations = async (lang) => {
 
 const getRedirectUrl = () => {
   const publicUrl = j("anubis_public_url");
-  if (publicUrl === null) {
-    return;
-  }
   if (publicUrl && window.location.href.startsWith(publicUrl)) {
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get("redir");
+    return urlParams.get("redir") || window.location.href;
   }
   return window.location.href;
 };
@@ -139,13 +136,13 @@ const t = (key) => translations[`js_${key}`] || translations[key] || key;
   }
 
   const ohNoes = ({ titleMsg, statusMsg, imageSrc }) => {
-    title.innerHTML = titleMsg;
-    status.innerHTML = statusMsg;
-    image.src = imageSrc;
-    progress.style.display = "none";
+    if (title) title.innerHTML = titleMsg;
+    if (status) status.innerHTML = statusMsg;
+    if (image) image.src = imageSrc;
+    if (progress) progress.style.display = "none";
   };
 
-  status.innerHTML = t("calculating");
+  if (status) status.innerHTML = t("calculating");
 
   for (const { value, name, msg } of dependencies) {
     if (!value) {
@@ -158,7 +155,16 @@ const t = (key) => translations[`js_${key}`] || translations[key] || key;
     }
   }
 
-  const { challenge, rules } = j("anubis_challenge");
+  const challengeData = j("anubis_challenge");
+  if (!challengeData) {
+    ohNoes({
+      titleMsg: t("challenge_error"),
+      statusMsg: t("challenge_error_msg"),
+      imageSrc: imageURL("reject", anubisVersion, basePrefix),
+    });
+    return;
+  }
+  const { challenge, rules } = challengeData;
 
   const process = algorithms[rules.algorithm];
   if (!process) {
@@ -170,14 +176,14 @@ const t = (key) => translations[`js_${key}`] || translations[key] || key;
     return;
   }
 
-  status.innerHTML = `${t("calculating_difficulty")} ${rules.difficulty}, `;
-  progress.style.display = "inline-block";
+  if (status) status.innerHTML = `${t("calculating_difficulty")} ${rules.difficulty}, `;
+  if (progress) progress.style.display = "inline-block";
 
   // the whole text, including "Speed:", as a single node, because some browsers
   // (Firefox mobile) present screen readers with each node as a separate piece
   // of text.
   const rateText = document.createTextNode(`${t("speed")} 0kH/s`);
-  status.appendChild(rateText);
+  if (status) status.appendChild(rateText);
 
   let lastSpeedUpdate = 0;
   let showingApology = false;

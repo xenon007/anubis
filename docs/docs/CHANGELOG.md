@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Добавлена поддержка темы Cyber для веб-интерфейса Anubis на основе шаблона `web_cyber`.
+- Ограничена сборка через `Makefile`: теперь поддерживается только Linux. При попытке запуска на Windows выводится сообщение "build not supported".
+- Все статические ассеты Cyber (CSS, JS, плагины) интегрированы в `web/static/assets`.
+- Исправлена конфигурация `.ko.yaml` для корректной сборки контейнеров (добавлено значение версии по умолчанию).
+- Восстановлены необходимые HTML-идентификаторы (`status`, `progress`, `title`, `image`) и Web Workers для работы Proof-of-Work в теме Cyber.
+- Стилизованы страницы ошибок и успеха под общий дизайн.
+
 - Expose [pprof endpoints](https://pkg.go.dev/net/http/pprof) on the metrics listener to enable profiling Anubis in production.
 - fix: prevent nil pointer panic in challenge validation when threshold rules match during PassChallenge (#1463)
 - Instruct reverse proxies to not cache error pages.

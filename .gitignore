@@ -1,6 +1,8 @@
 .env
 *.deb
 *.rpm
+*.zip
+web_cyber/
 
 # Additional package locks
 pnpm-lock.yaml
